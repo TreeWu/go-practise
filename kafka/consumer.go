@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-func main() {
+func Consumer() {
 
 	reader := kafka.NewReader(kafka.ReaderConfig{
 		Brokers: []string{KAFKA_SERVER},

@@ -4,6 +4,7 @@ import (
 	"context"
 	kafka "github.com/segmentio/kafka-go"
 	"log"
+	"math"
 	"strconv"
 )
 
@@ -12,14 +13,14 @@ const (
 	Topic        = "test"
 )
 
-func main() {
+func Producer() {
 	writer := kafka.Writer{
 		Addr:     kafka.TCP(KAFKA_SERVER),
 		Topic:    Topic,
 		Balancer: &kafka.LeastBytes{},
 	}
 	defer writer.Close()
-	for i := 0; i < 100; i++ {
+	for i := 0; i < math.MaxInt; i++ {
 		err := writer.WriteMessages(context.Background(), kafka.Message{
 			Key:   []byte("key" + strconv.Itoa(i)),
 			Value: []byte("Value" + strconv.Itoa(i)),
@@ -27,6 +28,6 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+		log.Println(" 发送  " + strconv.Itoa(i))
 	}
-
 }
